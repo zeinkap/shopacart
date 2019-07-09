@@ -1,10 +1,12 @@
 const express = require("express"),
       app = express(),
       bodyParser = require("body-parser"),
+      request = require("request"),
       mongoose = require("mongoose");
 
 mongoose.connect("mongodb://localhost:27017/shopacart", {useNewUrlParser: true});
 
+app.use(express.static("public"));  //for css styling
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
@@ -29,7 +31,7 @@ let Shopacart = mongoose.model("Shopacart", shopacartSchema);
 //         image: "https://images-na.ssl-images-amazon.com/images/I/71weWdliAOL._SL1500_.jpg"
 //     }, (err, item) => {
 //         if(err) {
-//             console.log("Error!")
+//             console.log("Error!");
 //             console.log(err);
 //         } else {
 //             console.log("New item added!");
@@ -45,7 +47,7 @@ app.get("/", (req, res) => {
 app.get("/items", (req, res) => {
     Shopacart.find({}, (err, allItems) => {
         if(err) {
-            console.log("Error!")
+            console.log("Error!");
             console.log(err);
         } else {
             res.render("items", {items : allItems});
@@ -81,6 +83,6 @@ app.get("/items/:id", (req, res) => {
     res.send("Will serve as single product info page");
 });
 
-app.listen(4000, () => {
-    console.log("Server listening on port 4000...")
+app.listen(3000, () => {
+    console.log("Server listening on port 3000...");
 });
